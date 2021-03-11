@@ -4,7 +4,8 @@ certoraRun.py spec/harness/KashiPairHarnessNOLIQ.sol spec/harness/DummyERC20A.so
 	--solc solc6.12 \
 	--settings -copyLoopUnroll=4,-b=1,-ignoreViewFunctions,-enableStorageAnalysis=true,-assumeUnwindCond,-ciMode=true,-recursionEntryLimit=10 \
 	--verify KashiPairHarnessNOLIQ:spec/kashiPair.spec \
+	--solc_args "['--optimize', '--optimize-runs', '800']" \
 	--rule totalAssetElasticLeBentoBoxBalanceOf \
 	--staging or/havocInfo \
 	--cache KashiPairHarnessNOLIQ \
-	--msg "KashiPairHarnessNOLIQFlat without optimization"  \
+	--msg "KashiPairHarnessNOLIQFlat "  \
