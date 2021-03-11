@@ -821,7 +821,7 @@ contract KashiPairMediumRiskV1 is ERC20, BoringOwnable, IMasterContract {
     uint256 private constant FULL_UTILIZATION_MINUS_MAX = FULL_UTILIZATION - MAXIMUM_TARGET_UTILIZATION;
     uint256 private constant FACTOR_PRECISION = 1e18;
 
-    uint64 private constant STARTING_INTEREST_PER_SECOND = 68493150675; // approx 1% APR
+    uint64 public constant STARTING_INTEREST_PER_SECOND = 68493150675; // approx 1% APR
     uint64 private constant MINIMUM_INTEREST_PER_SECOND = 17123287665; // approx 0.25% APR
     uint64 private constant MAXIMUM_INTEREST_PER_SECOND = 68493150675000; // approx 1000% APR
     uint256 private constant INTEREST_ELASTICITY = 28800e36; // Half or double in 28800 seconds (8 hours) if linear
@@ -832,8 +832,8 @@ contract KashiPairMediumRiskV1 is ERC20, BoringOwnable, IMasterContract {
     uint256 private constant LIQUIDATION_MULTIPLIER_PRECISION = 1e5;
 
     // Fees
-    uint256 private constant PROTOCOL_FEE = 10000; // 10%
-    uint256 private constant PROTOCOL_FEE_DIVISOR = 1e5;
+    uint256 public constant PROTOCOL_FEE = 10000; // 10%
+    uint256 public constant PROTOCOL_FEE_DIVISOR = 1e5;
     uint256 private constant BORROW_OPENING_FEE = 50; // 0.05%
     uint256 private constant BORROW_OPENING_FEE_PRECISION = 1e5;
 
@@ -869,7 +869,7 @@ contract KashiPairMediumRiskV1 is ERC20, BoringOwnable, IMasterContract {
     }
 
     /// @notice Accrues the interest on the borrowed tokens and handles the accumulation of fees.
-    function accrue() public {
+    function accrue() virtual public {
         AccrueInfo memory _accrueInfo = accrueInfo;
         // Number of seconds since accrue was called
         uint256 elapsedTime = block.timestamp - _accrueInfo.lastAccrued;
@@ -1284,7 +1284,7 @@ contract KashiPairMediumRiskV1 is ERC20, BoringOwnable, IMasterContract {
         uint8[] calldata actions,
         uint256[] calldata values,
         bytes[] calldata datas
-    ) external payable returns (uint256 value1, uint256 value2) {
+    ) external virtual payable returns (uint256 value1, uint256 value2) {
         CookStatus memory status;
         for (uint256 i = 0; i < actions.length; i++) {
             uint8 action = actions[i];
@@ -1367,7 +1367,7 @@ contract KashiPairMediumRiskV1 is ERC20, BoringOwnable, IMasterContract {
         address to,
         ISwapper swapper,
         bool open
-    ) public {
+    ) public virtual {
         // Oracle can fail but we still need to allow liquidations
         (, uint256 _exchangeRate) = updateExchangeRate();
         accrue();

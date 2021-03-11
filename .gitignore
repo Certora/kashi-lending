@@ -8,3 +8,8 @@ coverage
 coverage.json
 gasReport.txt
 bin
+.cerota*
+/.certora_build.json
+.certora_config/*
+/.last_confs
+/.certora*
